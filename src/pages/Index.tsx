@@ -21,6 +21,16 @@ interface LoanOffer {
   badge?: string;
 }
 
+interface BlogArticle {
+  id: number;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  readTime: string;
+  image: string;
+}
+
 const loanOffers: LoanOffer[] = [
   {
     id: 1,
@@ -99,6 +109,63 @@ const loanOffers: LoanOffer[] = [
   }
 ];
 
+const blogArticles: BlogArticle[] = [
+  {
+    id: 1,
+    title: 'Микрозаймы под 0%: как получить первый займ без процентов',
+    excerpt: 'Разбираем акции МФО для новых клиентов и условия получения беспроцентного займа. Пошаговая инструкция и лайфхаки.',
+    category: 'Советы',
+    date: '25 января 2026',
+    readTime: '5 мин',
+    image: '📚'
+  },
+  {
+    id: 2,
+    title: 'Топ-5 МФО с самым быстрым одобрением в 2026 году',
+    excerpt: 'Сравнение скорости выдачи займов: от заявки до получения денег. Реальные сроки и отзывы клиентов.',
+    category: 'Рейтинги',
+    date: '23 января 2026',
+    readTime: '7 мин',
+    image: '⚡'
+  },
+  {
+    id: 3,
+    title: 'Как улучшить кредитную историю с помощью микрозаймов',
+    excerpt: 'Эффективная стратегия повышения кредитного рейтинга через правильное использование краткосрочных займов.',
+    category: 'Гайды',
+    date: '20 января 2026',
+    readTime: '6 мин',
+    image: '📈'
+  },
+  {
+    id: 4,
+    title: 'Займы без отказа: правда или маркетинг?',
+    excerpt: 'Разбираем, что скрывается за обещаниями «100% одобрение» и как повысить шансы на получение займа.',
+    category: 'Аналитика',
+    date: '18 января 2026',
+    readTime: '8 мин',
+    image: '🔍'
+  },
+  {
+    id: 5,
+    title: 'Сколько микрозаймов можно взять одновременно: законы и риски',
+    excerpt: 'Юридические ограничения, финансовые риски и рекомендации экспертов по управлению несколькими займами.',
+    category: 'Законы',
+    date: '15 января 2026',
+    readTime: '10 мин',
+    image: '⚖️'
+  },
+  {
+    id: 6,
+    title: 'Рефинансирование микрозаймов: когда это выгодно',
+    excerpt: 'Как перекредитоваться на более выгодных условиях и сэкономить на процентах. Пошаговый алгоритм.',
+    category: 'Советы',
+    date: '12 января 2026',
+    readTime: '6 мин',
+    image: '💡'
+  }
+];
+
 const faqData = [
   {
     question: 'Как получить микрозайм онлайн?',
@@ -155,6 +222,7 @@ export default function Index() {
               <a href="#catalog" className="text-sm hover:text-primary transition-colors">Каталог</a>
               <a href="#calculator" className="text-sm hover:text-primary transition-colors">Калькулятор</a>
               <a href="#comparison" className="text-sm hover:text-primary transition-colors">Сравнение</a>
+              <a href="#blog" className="text-sm hover:text-primary transition-colors">Блог</a>
               <a href="#faq" className="text-sm hover:text-primary transition-colors">FAQ</a>
               <Button size="sm" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
                 <Icon name="Phone" className="w-4 h-4 mr-2" />
@@ -306,7 +374,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="calculator" className="py-16 px-4 bg-card/30">
+      <section id="calculator" className="py-16 px-4 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
           <Card className="border-border/50">
             <CardHeader>
@@ -537,7 +605,63 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="faq" className="py-16 px-4 bg-card/30">
+      <section id="blog" className="py-16 px-4">
+        <div className="container mx-auto">
+          <div className="text-center space-y-4 mb-12">
+            <h3 className="text-4xl font-bold">Блог и новости</h3>
+            <p className="text-muted-foreground text-lg">Полезные статьи о микрозаймах и финансовой грамотности</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {blogArticles.map((article, index) => (
+              <Card 
+                key={article.id}
+                className="group hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 cursor-pointer overflow-hidden border-border/50"
+              >
+                <CardHeader className="space-y-4">
+                  <div className="flex items-start justify-between">
+                    <Badge variant="secondary" className="text-xs">
+                      {article.category}
+                    </Badge>
+                    <div className="text-4xl">{article.image}</div>
+                  </div>
+                  <CardTitle className="text-xl leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                    {article.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-sm text-muted-foreground line-clamp-3">
+                    {article.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/50">
+                    <div className="flex items-center gap-2">
+                      <Icon name="Calendar" className="w-3 h-3" />
+                      <span>{article.date}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Icon name="Clock" className="w-3 h-3" />
+                      <span>{article.readTime}</span>
+                    </div>
+                  </div>
+                  <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    Читать статью
+                    <Icon name="ArrowRight" className="w-4 h-4 ml-2" />
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Button size="lg" variant="outline" className="border-primary/50">
+              <Icon name="BookOpen" className="w-5 h-5 mr-2" />
+              Смотреть все статьи
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="py-16 px-4 bg-muted/30">
         <div className="container mx-auto max-w-3xl">
           <div className="text-center space-y-4 mb-12">
             <h3 className="text-4xl font-bold">Часто задаваемые вопросы</h3>
@@ -587,7 +711,7 @@ export default function Index() {
         </div>
       </section>
 
-      <footer className="border-t border-border/40 py-12 px-4 bg-card/30">
+      <footer className="border-t border-border/40 py-12 px-4 bg-muted/30">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div className="space-y-4">
@@ -605,6 +729,7 @@ export default function Index() {
                 <div><a href="#catalog" className="text-muted-foreground hover:text-primary transition-colors">Каталог</a></div>
                 <div><a href="#calculator" className="text-muted-foreground hover:text-primary transition-colors">Калькулятор</a></div>
                 <div><a href="#comparison" className="text-muted-foreground hover:text-primary transition-colors">Сравнение</a></div>
+                <div><a href="#blog" className="text-muted-foreground hover:text-primary transition-colors">Блог</a></div>
                 <div><a href="#faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a></div>
               </div>
             </div>
