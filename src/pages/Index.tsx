@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -422,11 +422,42 @@ const faqData = [
   }
 ];
 
+const liveApprovals = [
+  { name: 'Наталья К.', city: 'Москва', amount: 15000 },
+  { name: 'Дмитрий М.', city: 'Санкт-Петербург', amount: 25000 },
+  { name: 'Елена П.', city: 'Казань', amount: 10000 },
+  { name: 'Андрей С.', city: 'Новосибирск', amount: 30000 },
+  { name: 'Ольга В.', city: 'Екатеринбург', amount: 20000 },
+  { name: 'Игорь Т.', city: 'Краснодар', amount: 18000 },
+  { name: 'Мария Л.', city: 'Челябинск', amount: 12000 },
+  { name: 'Сергей Б.', city: 'Ростов-на-Дону', amount: 22000 },
+  { name: 'Анна Д.', city: 'Уфа', amount: 16000 },
+  { name: 'Алексей Г.', city: 'Самара', amount: 28000 },
+  { name: 'Татьяна К.', city: 'Омск', amount: 14000 },
+  { name: 'Виктор Р.', city: 'Воронеж', amount: 19000 }
+];
+
 export default function Index() {
   const [loanAmount, setLoanAmount] = useState([30000]);
   const [loanTerm, setLoanTerm] = useState([14]);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [expandedArticle, setExpandedArticle] = useState<number | null>(null);
+  const [currentApprovals, setCurrentApprovals] = useState<typeof liveApprovals>([]);
+
+  useEffect(() => {
+    const getRandomApprovals = () => {
+      const shuffled = [...liveApprovals].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, 3);
+    };
+
+    setCurrentApprovals(getRandomApprovals());
+
+    const interval = setInterval(() => {
+      setCurrentApprovals(getRandomApprovals());
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const calculatePayment = () => {
     const rate = 0.01;
@@ -888,6 +919,54 @@ export default function Index() {
               </div>
             </TabsContent>
           </Tabs>
+        </div>
+      </section>
+
+      <section className="py-12 px-4 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5">
+        <div className="container mx-auto">
+          <div className="text-center space-y-4 mb-8">
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <h3 className="text-2xl font-bold">Одобрено сегодня</h3>
+            </div>
+            <p className="text-muted-foreground">Заявки обрабатываются в реальном времени</p>
+          </div>
+
+          <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-4">
+            {currentApprovals.map((approval, index) => (
+              <div 
+                key={index}
+                className="bg-card border-2 border-green-500/30 rounded-lg p-4 animate-fade-in hover:shadow-lg hover:shadow-green-500/20 transition-all"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold flex-shrink-0">
+                    {approval.name.charAt(0)}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <p className="font-semibold text-sm truncate">{approval.name}</p>
+                      <Icon name="CheckCircle2" className="w-4 h-4 text-green-500 flex-shrink-0" />
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-2">{approval.city}</p>
+                    <div className="flex items-center gap-1">
+                      <Icon name="TrendingUp" className="w-3 h-3 text-green-500" />
+                      <p className="text-sm font-bold text-green-600">
+                        +{approval.amount.toLocaleString('ru-RU')} ₽
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-6">
+            <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
+              <Icon name="Users" className="w-4 h-4" />
+              Сегодня одобрено <span className="font-bold text-primary">245 заявок</span>
+            </p>
+          </div>
         </div>
       </section>
 
